@@ -15,10 +15,10 @@ struct SegmentTree
     {
         return (a + b);
     }
-    void build(ll a[])
+    void build(VI a)
     {
         for (size_t i = 0; i < n; ++i) tree[N + i] = a[i];
-        for (size_t i = N - 1; i >= 1; --i) tree[i] = tree[i << 1] + tree[i << 1 | 1];
+        for (size_t i = N - 1; i >= 1; --i) tree[i] = fnc(tree[i << 1] , tree[i << 1 | 1]);
     }
     void update(int k, T val)
     {
@@ -32,8 +32,7 @@ struct SegmentTree
         if (R < l or L > r) return U;
         if (L <= l and R >= r) return tree[v];
         int mid = l + ((r - l) >> 1);
-        debug(L,R,l,r,mid,v);
-        return (query(L, R, l, mid, v << 1) +
+        return fnc(query(L, R, l, mid, v << 1) ,
                 query(L, R, mid + 1, r, v << 1 | 1));
     }
 };
